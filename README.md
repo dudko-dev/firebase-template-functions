@@ -32,6 +32,13 @@ mkdir $FIREBASE_WEBAPI_DIR
 git clone $FIREBASE_WEBAPI_REPO $FIREBASE_WEBAPI_DIR
 ```
 
+## Before using
+
+- add your service account files to `./accounts` directory (you can use more than one file for the different projects)
+- add your environments variables in `.env.YOUR_PROJECT_ID` file (you can use more than one file for the different projects)
+- add random uuid/key in `.envkey` file
+- encrypt your files `npm run encrypt`
+
 ## Firebase functions
 
 Cloud functions for the project. All functions are requested via `lib/loader.js` using dynamic loading.
@@ -41,7 +48,7 @@ Cloud functions for the project. All functions are requested via `lib/loader.js`
 - Install the dependencies: `npm ci`
 - Install global dependencies: `sudo npm install firebase-tools -g`
 - Set the .envkey file: `echo "00000000-0000-0000-0000-000000000000">./.envkey`
-- Decrypt env and accoun files: `npm run decrypt`
+- Decrypt env and account files: `npm run decrypt`
 - To update the dependencies: `npm run update`
 - To run lint `npm run lint`
 - To run build `npm run build`
