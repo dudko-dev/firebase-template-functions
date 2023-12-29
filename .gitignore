@@ -1,0 +1,25 @@
+## Compiled JavaScript files
+# **/*.js
+# **/*.js.map
+lib
+docs
+
+# env and accounts settings
+.envkey
+*.env
+.env.*[!.enc]
+accounts/development.json
+accounts/staging.json
+accounts/production.json
+
+# Typescript v1 declaration files
+typings/
+
+tmp
+node_modules/
+.nyc_output
+.DS_Store
+**/.DS_Store
+*.log
+*.backup
+.runtimeconfig.json

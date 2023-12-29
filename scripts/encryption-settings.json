@@ -1,0 +1,6 @@
+{
+  "envFiles": [".env.fir-template-40a59"],
+  "accountFiles": ["accounts/production.json"],
+  "salt": "d0db1612-ff11-45e2-b74c-71d9e72da7ce",
+  "algorithm": "aes-192-cbc"
+}

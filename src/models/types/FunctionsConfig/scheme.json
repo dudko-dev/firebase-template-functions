@@ -1,0 +1,37 @@
+{
+  "$id": "FunctionsConfig.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FunctionsConfigInterface",
+  "type": "object",
+  "required": [
+    "firebase",
+    "web",
+    "site"
+  ],
+  "properties": {
+    "firebase": {
+      "type": "object",
+      "required": ["databaseURL", "storageBucket", "projectId"],
+      "properties": {
+        "databaseURL": { "type": "string" },
+        "storageBucket": { "type": "string" },
+        "projectId": { "type": "string" }
+      }
+    },
+    "web": {
+      "type": "object",
+      "required": ["apikey"],
+      "properties": {
+        "apikey": { "type": "string" }
+      }
+    },
+    "site": {
+      "type": "object",
+      "required": ["name", "url"],
+      "properties": {
+        "name": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    }
+  }
+}

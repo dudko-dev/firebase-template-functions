@@ -1,0 +1,2 @@
+Example of an text message to the user {{userName}}.
+Sincerely, Firebase Template.

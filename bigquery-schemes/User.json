@@ -1,0 +1,14 @@
+{
+	"fields": [
+		{
+			"name": "email",
+			"type": "string",
+			"column_name": "EMAIL"
+		},
+		{
+			"name": "fcmToken",
+			"type": "string",
+			"column_name": "FCMTOKEN"
+		}
+	]
+}

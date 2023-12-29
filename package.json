@@ -1,0 +1,71 @@
+{
+  "name": "cloud-functions",
+  "private": true,
+  "version": "0.0.1",
+  "main": "./lib/loader.js",
+  "engines": {
+    "node": "20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:dudko-dev/firebase-template-functions"
+  },
+  "homepage": "https://dudko.dev",
+  "author": "Siarhei Dudko <sergey@dudko.dev>",
+  "license": "Custom",
+  "scripts": {
+    "bigquery": "node ./scripts/create-bigquery-schemes.js",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc --ext .ts src",
+    "pre-build": "npm run lint",
+    "build": "rm -rf lib && ./node_modules/.bin/tsc",
+    "update": "eval \"$(node -e 'const t = require(`./package.json`);const ignore = require(`./ignoreUpdatesModules.json`);console.log(`npm i ${(Object.keys(t.dependencies).filter((e)=>ignore.base.indexOf(e) === -1).map((e)=>(`${e}@latest`)).join(` `))} --save&&npm i ${(Object.keys(t.devDependencies).filter((e)=>ignore.dev.indexOf(e) === -1).map((e)=>(`${e}@latest`)).join(` `))} --save-dev`);')\"",
+    "decrypt": "node ./scripts/decrypt-env.js",
+    "encrypt": "node ./scripts/encrypt-env.js",
+    "serve": "npm run build && firebase serve --only functions",
+    "shell": "./node_modules/.bin/firebase-cli",
+    "start": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "firebase emulators:exec --only firestore,auth,storage './node_modules/.bin/mocha --exit test/functional/*.test.js test/unit/*.test.js'",
+    "cov": "firebase emulators:exec --only firestore,auth,storage './node_modules/.bin/nyc ./node_modules/.bin/mocha --exit test/functional/*.test.js test/unit/*.test.js'",
+    "backup": "./node_modules/.bin/firebase-engine  operations=\"backup\" path=\"$GOOGLE_APPLICATION_CREDENTIALS\" backup=\"./$(date +%F).backup\""
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^7.1.0",
+    "ajv": "^8.12.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.11.1",
+    "firebase-functions": "^4.5.0",
+    "glob": "^8.1.0",
+    "helmet": "^7.1.0",
+    "html-to-text": "^9.0.5",
+    "moment-timezone": "^0.5.43",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "@types/html-to-text": "^9.0.4",
+    "@types/node": "^20.10.4",
+    "@types/node-fetch": "^2.6.2",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "typescript": "^5.3.3"
+  },
+  "optionalDependencies": {
+    "firebase-admin-cli": "^1.1.16",
+    "firebase-engine": "^1.5.113",
+    "firebase-functions-test": "^3.1.0",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "sinon": "^17.0.1",
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0"
+  }
+}

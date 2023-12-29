@@ -1,0 +1,15 @@
+{
+  "$id": "CallableData.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CallableDataInterface",
+  "type": "object",
+  "required": ["action", "data"],
+  "properties": {
+    "action": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "base": ["node-fetch", "glob"],
+  "dev": ["@types/node", "@types/node-fetch"]
+}
