@@ -1,4 +1,4 @@
 {
-  "base": ["node-fetch", "glob"],
-  "dev": ["@types/node", "@types/node-fetch"]
+  "base": ["node-fetch"],
+  "dev": ["@types/node", "@types/node-fetch", "eslint"]
 }

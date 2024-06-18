@@ -3,24 +3,31 @@
  * This code is not executed in runtime, but only during assembly.
  */
 
-import * as glob from 'glob';
+import { readdirSync } from 'fs';
+import { join } from 'path';
 
-const files = glob.sync('./functions/**/*.f.js', {
-  cwd: __dirname,
-  ignore: './node_modules/**',
-});
-for (let f = 0, fl = files.length; f < fl; f++) {
-  const file = files[f];
-  const functionName = file
-    .replace('./functions/', '')
-    .replace('.f.js', '')
-    .split('/')
-    .join('_');
+const functionsPostfix = '.f.js';
+const functionsPath = join(__dirname, 'functions');
+const functionsFileRegex = new RegExp(
+  `^.*${functionsPostfix.replace('.', '\\.')}$`,
+  'gi'
+);
+const functionsDirs = readdirSync(functionsPath, {
+  withFileTypes: true,
+  recursive: true,
+}).filter((dir) => dir.isFile() && functionsFileRegex.test(dir.name));
+for (const functionDir of functionsDirs) {
+  const functionPath = join(functionDir.parentPath, functionDir.name);
+  const functionName = functionPath
+    .replace(functionsPath, '')
+    .replace(new RegExp(`${functionsPostfix.replace('.', '\\.')}$`), '')
+    .replace(new RegExp('^/'), '')
+    .replaceAll('/', '_');
   if (
     !process.env.FUNCTION_NAME ||
     process.env.FUNCTION_NAME === functionName
   ) {
     /* eslint-disable-next-line */
-    exports[functionName] = require(file);
+    exports[functionName] = require(functionPath);
   }
 }

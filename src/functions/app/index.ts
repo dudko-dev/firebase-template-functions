@@ -23,6 +23,6 @@ export async function handler(callableRequest: CallableRequest) {
     const action: keyof typeof actions = validatedData.action as any;
     return await actions[action](validatedData.data, callableRequest);
   } catch (err) {
-    return await onCallFunErrorHandler(err as any);
+    return onCallFunErrorHandler(err as any);
   }
 }

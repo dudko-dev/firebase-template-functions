@@ -58,7 +58,7 @@ export class Abstract {
       return doc;
     },
     fromFirestore(snapshot: QueryDocumentSnapshot): DocumentData {
-      const doc = snapshot.data()!;
+      const doc = snapshot.data();
       return doc;
     },
   };
@@ -134,8 +134,8 @@ export class Abstract {
   public delete = async (transaction?: Transaction) =>
     transaction
       ? transaction.delete(this.ref, {
-        exists: true,
-      })
+          exists: true,
+        })
       : this.ref.delete({ exists: true });
 
   /**
