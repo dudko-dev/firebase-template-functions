@@ -4,7 +4,6 @@
  * and firebase uses them to implement cjs and esm modules.
  */
 
-/* eslint-disable */
 import {
   EventContext,
   Response,
@@ -12,6 +11,5 @@ import {
   Request,
   https,
 } from 'firebase-functions/v1';
-/* eslint-enable */
 
 export { EventContext, Request, https, Response, runWith };

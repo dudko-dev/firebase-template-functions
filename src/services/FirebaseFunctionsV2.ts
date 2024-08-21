@@ -4,7 +4,6 @@
  * and firebase uses them to implement cjs and esm modules.
  */
 
-/* eslint-disable */
 import {
   CallableRequest,
   Request,
@@ -18,7 +17,6 @@ import {
   AppCheckData,
   AuthData,
 } from 'firebase-functions/lib/common/providers/https';
-/* eslint-enable */
 
 export {
   AppCheckData,

@@ -5,8 +5,8 @@ const {
 } = require('../utils/settings.js');
 require('../utils/global.js');
 require('mocha');
+const chaiLoader = import('chai');
 const sinon = require('sinon');
-const chai = require('chai');
 const admin = require('firebase-admin');
 const testFn = require('firebase-functions-test')(
   {
@@ -22,8 +22,11 @@ const myFunctions = require('../../lib/loader');
 const app = testFn.wrap(myFunctions.app);
 
 describe('Basic processing of app function', function () {
+  let chai;
   this.timeout(60000);
   this.beforeAll(async () => {
+    const chaiModule = await chaiLoader;
+    chai = chaiModule;
     return;
   });
   this.afterAll(async () => {
@@ -41,7 +44,9 @@ describe('Basic processing of app function', function () {
       if (err) e = err;
     } finally {
       chai.expect(e).to.be.an('error');
-      chai.expect(e.message).to.eql('#000003');
+      chai
+        .expect(e.message)
+        .to.eql('There is no implementation for this action');
     }
     return;
   });
@@ -56,7 +61,7 @@ describe('Basic processing of app function', function () {
       if (err) e = err;
     } finally {
       chai.expect(e).to.be.an('error');
-      chai.expect(e.message).to.eql('#000002');
+      chai.expect(e.message).to.eql('Unknown error');
     }
     return;
   });

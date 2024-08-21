@@ -6,8 +6,8 @@ const {
 require('../utils/global.js');
 require('mocha');
 const sinon = require('sinon');
-const chai = require('chai');
-const chaiHttp = require('chai-http');
+const chaiLoader = import('chai');
+const chaiHttpLoader = import('chai-http');
 const admin = require('firebase-admin');
 const testFn = require('firebase-functions-test')(
   {
@@ -22,25 +22,27 @@ const myFunctions = require('../../lib/loader');
 
 const api = myFunctions.api;
 
-chai.use(chaiHttp);
-chai.should();
-
 describe('Basic processing of api function', function () {
+  let chai;
   this.timeout(60000);
   this.beforeAll(async () => {
-    return;
+    const [chaiModule, chaiHttpModule] = await Promise.all([
+      chaiLoader,
+      chaiHttpLoader,
+    ]);
+    chai = chaiModule.use(chaiHttpModule.default);
   });
   this.afterAll(async () => {
     return;
   });
   it('ping - invalid route', async function () {
-    const request = chai.request(api).get('/404');
+    const request = chai.request.execute(api).get('/404');
     const res = await chaiRequestPromisify(request);
     chai.expect(res.status).to.eql(404);
     return;
   });
   it('ping - ping route', async function () {
-    const request = chai.request(api).post('/v1/ping');
+    const request = chai.request.execute(api).post('/v1/ping');
     request.set('Content-Type', 'application/json');
     request.send({});
     const res = await chaiRequestPromisify(request);

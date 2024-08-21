@@ -4,8 +4,6 @@
  * and firebase uses them to implement cjs and esm modules.
  */
 
-/* eslint-disable */
 import { log, error, warn, info, debug } from 'firebase-functions/logger';
-/* eslint-enable */
 
 export { log, error, warn, info, debug };

@@ -1,11 +1,9 @@
-/* eslint-disable */
 import {
   projectID,
   storageBucket,
   databaseURL,
   defineString,
 } from 'firebase-functions/params';
-/* eslint-enable */
 import { FunctionsConfigValidator } from '../models/types/FunctionsConfig/validator';
 import { FunctionsConfigInterface } from '../models/types/FunctionsConfig/interface';
 

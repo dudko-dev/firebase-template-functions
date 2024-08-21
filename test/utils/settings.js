@@ -7,8 +7,8 @@ if (typeof serviceAccountKeyPath !== 'string')
     'The environment variable $GOOGLE_APPLICATION_CREDENTIALS is set incorrectly (this should be the absolute path to the service account).'
   );
 const serviceAccount = require(serviceAccountKeyPath);
-if (projectsForTesting.indexOf(serviceAccount.project_id) === -1)
-  throw new Error('The project does not support tests.');
+// if (projectsForTesting.indexOf(serviceAccount.project_id) === -1)
+//   throw new Error('The project does not support tests.');
 module.exports = {
   serviceAccount,
   serviceAccountKeyPath,

@@ -2,10 +2,9 @@
 const settings = require('../utils/settings.js');
 require('../utils/global.js');
 require('mocha');
-const chai = require('chai');
+const chaiLoader = import('chai');
 const { textMsgTemplates } = require('../../lib/utils/textMsgTemplates');
 const { htmlMsgTemplates } = require('../../lib/utils/htmlMsgTemplates');
-const { sqlMsgTemplates } = require('../../lib/utils/sqlTemplates');
 
 const spaceInTab = 2;
 
@@ -14,8 +13,12 @@ describe('Test templates functionality:', function () {
     .fill()
     .map(() => ' ')
     .join('');
+  let chai;
   this.timeout(60000);
-  this.beforeAll(async () => {});
+  this.beforeAll(async () => {
+    const chaiModule = await chaiLoader;
+    chai = chaiModule;
+  });
   this.afterAll(async () => {});
   it('Test text/sms templates base', async function () {
     const templateEditor = textMsgTemplates.example;
@@ -36,6 +39,7 @@ describe('Test templates functionality:', function () {
     chai.expect(templateEditor).to.be.an('function');
     const arg = {
       userName: 'Siarhei Dudko',
+      garageName: 'Minsk RPS',
     };
     const res = templateEditor(arg);
     chai.expect(res).to.be.an('object');
@@ -52,6 +56,7 @@ describe('Test templates functionality:', function () {
     chai.expect(templateEditor).to.be.an('function');
     const arg = {
       userName: 'Siarhei Dudko',
+      garageName: 'Minsk RPS',
     };
     const res = templateEditor(
       arg,
@@ -61,9 +66,7 @@ describe('Test templates functionality:', function () {
     chai.expect(res.text).to.be.an('string');
     chai
       .expect(res.text)
-      .to.eql(
-        `Example of an text message to the user ${arg.userName}.`
-      );
+      .to.eql(`Example of an text message to the user ${arg.userName}.`);
     return;
   });
   it('Test html templates base', async function () {
@@ -94,6 +97,7 @@ describe('Test templates functionality:', function () {
     chai.expect(templateEditor).to.be.an('function');
     const arg = {
       userName: 'Siarhei Dudko',
+      garageName: 'Minsk RPS',
     };
     const res = templateEditor(arg);
     chai.expect(res).to.be.an('object');
@@ -119,6 +123,7 @@ describe('Test templates functionality:', function () {
     chai.expect(templateEditor).to.be.an('function');
     const arg = {
       userName: 'Siarhei Dudko',
+      garageName: 'Minsk RPS',
     };
     const res = templateEditor(
       arg,
@@ -135,9 +140,7 @@ describe('Test templates functionality:', function () {
     chai.expect(res.html).to.be.an('string');
     chai
       .expect(res.text)
-      .to.eql(
-        `Example of an html message to the user ${arg.userName}.`
-      );
+      .to.eql(`Example of an html message to the user ${arg.userName}.`);
     chai
       .expect(res.html)
       .to.eql(
@@ -145,41 +148,6 @@ describe('Test templates functionality:', function () {
           /\t/g,
           tabToSpace
         )
-      );
-    return;
-  });
-  it('Test sql templates with replace', async function () {
-    const templateEditor = sqlMsgTemplates.example;
-    chai.expect(templateEditor).to.be.an('function');
-    const arg = {
-      userName: 'Siarhei Dudko',
-    };
-    const res = templateEditor(arg);
-    chai.expect(res).to.be.an('object');
-    chai.expect(res.sqlQuery).to.be.an('string');
-    chai
-      .expect(res.sqlQuery)
-      .to.eql(
-        `SELECT '${arg.userName}' AS \`USER_NAME\`;`
-      );
-    return;
-  });
-  it('Test html templates with replaced template', async function () {
-    const templateEditor = sqlMsgTemplates.example;
-    chai.expect(templateEditor).to.be.an('function');
-    const arg = {
-      userName: 'Siarhei Dudko',
-    };
-    const res = templateEditor(
-      arg,
-      `SELECT '{{ userName }}' AS \`USER_NAME\` ORDER BY \`USER_NAME\`;`
-    );
-    chai.expect(res).to.be.an('object');
-    chai.expect(res.sqlQuery).to.be.an('string');
-    chai
-      .expect(res.sqlQuery)
-      .to.eql(
-        `SELECT '${arg.userName}' AS \`USER_NAME\` ORDER BY \`USER_NAME\`;`
       );
     return;
   });

@@ -23,7 +23,7 @@ export const onRequestFunErrorHandler = async (
     logger.info += msg.message;
     if (err instanceof OnRequestFunError) res.status(err.code).json(msg);
     else res.status(status).json(msg);
-  } catch (_err) {
+  } catch {
     res.end();
   }
 };

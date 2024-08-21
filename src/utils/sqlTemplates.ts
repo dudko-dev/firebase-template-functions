@@ -1,21 +1,29 @@
 import { readdirSync, readFileSync } from 'fs';
 import { join as pathJoin } from 'path';
+import { GenericFunctionWithTwoArgs } from './genericFunction';
 
 const dirSqlPath = pathJoin(__dirname, '../../templates/sql');
 
 const sqlTemplateFiles = readdirSync(dirSqlPath)
   .filter((e) => typeof e === 'string' && /\.sql$/i.test(e))
-  .reduce((accumulator, currentValue) => {
-    accumulator[currentValue.replace(/\.sql$/i, '')] = readFileSync(
-      pathJoin(dirSqlPath, currentValue)
-    );
-    return accumulator;
-  }, {} as { [key: string]: Buffer });
+  .reduce(
+    (accumulator, currentValue) => {
+      accumulator[currentValue.replace(/\.sql$/i, '')] = readFileSync(
+        pathJoin(dirSqlPath, currentValue)
+      );
+      return accumulator;
+    },
+    {} as { [key: string]: Buffer }
+  );
 
-type SqlEditor = (
-  options: { [key: string]: any },
-  replaceTemplate?: string
-) => { sqlQuery: string };
+type SqlEditor = GenericFunctionWithTwoArgs<
+  { [key: string]: any },
+  string | undefined,
+  {
+    sqlQuery: string;
+  }
+>;
+
 const sqlEditors = Object.keys(sqlTemplateFiles).reduce(
   (accumulator, currentValue) => {
     accumulator[currentValue] = (

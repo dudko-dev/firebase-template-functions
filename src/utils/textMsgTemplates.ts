@@ -1,21 +1,29 @@
 import { readdirSync, readFileSync } from 'fs';
 import { join as pathJoin } from 'path';
+import { GenericFunctionWithTwoArgs } from './genericFunction';
 
 const dirTextPath = pathJoin(__dirname, '../../templates/text');
 
 const textTemplateFiles = readdirSync(dirTextPath)
   .filter((e) => typeof e === 'string' && /\.txt$/i.test(e))
-  .reduce((accumulator, currentValue) => {
-    accumulator[currentValue.replace(/\.txt$/i, '')] = readFileSync(
-      pathJoin(dirTextPath, currentValue)
-    );
-    return accumulator;
-  }, {} as { [key: string]: Buffer });
+  .reduce(
+    (accumulator, currentValue) => {
+      accumulator[currentValue.replace(/\.txt$/i, '')] = readFileSync(
+        pathJoin(dirTextPath, currentValue)
+      );
+      return accumulator;
+    },
+    {} as { [key: string]: Buffer }
+  );
 
-type TextEditor = (
-  options: { [key: string]: any },
-  replaceTemplate?: string
-) => { text: string };
+type TextEditor = GenericFunctionWithTwoArgs<
+  { [key: string]: any },
+  string | undefined,
+  {
+    text: string;
+  }
+>;
+
 const textEditors = Object.keys(textTemplateFiles).reduce(
   (accumulator, currentValue) => {
     accumulator[currentValue] = (

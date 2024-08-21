@@ -2,9 +2,11 @@
  * This is a function loader.
  * This code is not executed in runtime, but only during assembly.
  */
-
 import { readdirSync } from 'fs';
 import { join } from 'path';
+if (process.env.FUNCTIONS_EMULATOR == 'true') {
+  require('dotenv').config({ path: '.env.local' });
+}
 
 const functionsPostfix = '.f.js';
 const functionsPath = join(__dirname, 'functions');

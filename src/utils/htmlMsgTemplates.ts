@@ -1,25 +1,31 @@
 import { readdirSync, readFileSync } from 'fs';
 import { join as pathJoin } from 'path';
 import { htmlToText } from 'html-to-text';
+import { GenericFunctionWithTwoArgs } from './genericFunction';
 
 const dirHtmlPath = pathJoin(__dirname, '../../templates/html');
 
 const htmlTemplateFiles = readdirSync(dirHtmlPath)
   .filter((e) => typeof e === 'string' && /\.html$/i.test(e))
-  .reduce((accumulator, currentValue) => {
-    accumulator[currentValue.replace(/\.html$/i, '')] = readFileSync(
-      pathJoin(dirHtmlPath, currentValue)
-    );
-    return accumulator;
-  }, {} as { [key: string]: Buffer });
+  .reduce(
+    (accumulator, currentValue) => {
+      accumulator[currentValue.replace(/\.html$/i, '')] = readFileSync(
+        pathJoin(dirHtmlPath, currentValue)
+      );
+      return accumulator;
+    },
+    {} as { [key: string]: Buffer }
+  );
 
-type HtmlEditor = (
-  options: { [key: string]: any },
-  replaceTemplate?: string
-) => {
-  html: string;
-  text: string;
-};
+type HtmlEditor = GenericFunctionWithTwoArgs<
+  { [key: string]: any },
+  string | undefined,
+  {
+    html: string;
+    text: string;
+  }
+>;
+
 const htmlEditors = Object.keys(htmlTemplateFiles).reduce(
   (accumulator, currentValue) => {
     accumulator[currentValue] = (

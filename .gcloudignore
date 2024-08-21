@@ -7,6 +7,7 @@
 .prettierrc
 .eslintrc
 .eslintignore
+eslint.config.mjs
 .envkey
 .editorconfig
 .env.local
