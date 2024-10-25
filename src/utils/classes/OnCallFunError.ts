@@ -11,19 +11,20 @@ type OnCallFunErrorCodes = '#000001' | '#000002' | '#000003' | '#000004';
 export class OnCallFunError extends HttpsError {
   constructor(code: OnCallFunErrorCodes = '#000001', details?: string) {
     super(
-      typeof OnCallFunError.onCallFunErrors[code] !== 'object'
-        ? OnCallFunError.onCallFunErrors['#000001'].type
-        : OnCallFunError.onCallFunErrors[code].type,
-      details || typeof OnCallFunError.onCallFunErrors[code] !== 'object'
-        ? OnCallFunError.onCallFunErrors['#000001'].message
-        : OnCallFunError.onCallFunErrors[code].message,
+      OnCallFunError.onCallFunErrors[code]
+        ? OnCallFunError.onCallFunErrors[code].type
+        : OnCallFunError.onCallFunErrors['#000001'].type,
+      details
+        ? details
+        : OnCallFunError.onCallFunErrors[code]
+          ? OnCallFunError.onCallFunErrors[code].message
+          : OnCallFunError.onCallFunErrors['#000001'].message,
       {
         code,
         details,
-        message:
-          typeof OnCallFunError.onCallFunErrors[code] !== 'object'
-            ? OnCallFunError.onCallFunErrors['#000001'].message
-            : OnCallFunError.onCallFunErrors[code].message,
+        message: OnCallFunError.onCallFunErrors[code]
+          ? OnCallFunError.onCallFunErrors[code].message
+          : OnCallFunError.onCallFunErrors['#000001'].message,
       }
     );
     this.onCallFunErrorCode = code;
